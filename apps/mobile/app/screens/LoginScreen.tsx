@@ -28,7 +28,7 @@ export default function LoginScreen() {
     setIsLoading(true);
     setTimeout(() => {
       if (rememberMe) {
-        router.replace("/(auth)/dashboard");
+        router.replace("/(tabs)/dashboard");
       } else {
         router.replace("/(auth)/profile");
       }
