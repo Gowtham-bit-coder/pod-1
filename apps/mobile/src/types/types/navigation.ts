@@ -9,6 +9,10 @@ export type RootStackParamList = {
   profile: {
     token: string;
   };
+  dashboard: undefined;
+  read: undefined;
+  listen: undefined;
+  write: undefined;
 };
 
 export type AuthStackParamList = {
@@ -22,6 +26,10 @@ export type AuthStackParamList = {
   profile: {
     token: string;
   };
+  dashboard: undefined;
+  read: undefined;
+  listen: undefined;
+  write: undefined;
 };
 
 export type TabsStackParamList = {

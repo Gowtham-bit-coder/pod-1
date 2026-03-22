@@ -28,9 +28,9 @@ export default function LoginScreen() {
     setIsLoading(true);
     setTimeout(() => {
       if (rememberMe) {
-        router.replace("/(tabs)/dashboard");
+        router.replace("/dashboard");
       } else {
-        router.replace("/(auth)/profile");
+        router.replace("/profile");
       }
       setIsLoading(false);
     }, 300);
@@ -39,7 +39,7 @@ export default function LoginScreen() {
   const handleFakeOAuth = (provider: "Google" | "GitHub") => {
     setIsLoading(true);
     setTimeout(() => {
-      router.replace("/(auth)/dashboard");
+      router.replace("/dashboard");
       setIsLoading(false);
     }, 200);
   };
@@ -120,7 +120,7 @@ export default function LoginScreen() {
             <Text style={styles.oauthText}>Continue with GitHub</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push("/(auth)/register")}> 
+          <TouchableOpacity onPress={() => router.push("/register")}> 
             <Text style={styles.link}>Don’t have an Account? Sign up</Text>
           </TouchableOpacity>
         </View>

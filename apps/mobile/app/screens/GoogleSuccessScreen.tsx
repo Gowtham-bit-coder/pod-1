@@ -26,7 +26,7 @@ export default function GoogleSuccessScreen() {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => router.replace("/(auth)/profile")}
+        onPress={() => router.replace("/profile")}
       >
         <Text style={styles.btnText}>Create Profile →</Text>
       </TouchableOpacity>

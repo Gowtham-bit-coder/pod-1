@@ -42,7 +42,7 @@ export default function RegisterScreen() {
     }
 
     alert("Registration successful. Please login.");
-    router.replace("/(auth)/login");
+    router.replace("/login");
   };
 
 
@@ -85,7 +85,7 @@ export default function RegisterScreen() {
 
           <TouchableOpacity
             style={styles.googleBtn}
-            onPress={() => router.replace("/(auth)/profile")}
+            onPress={() => router.replace("/profile")}
           >
             <Image
               source={{
@@ -96,7 +96,7 @@ export default function RegisterScreen() {
             <Text style={styles.googleText}>Continue with Google</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
+          <TouchableOpacity onPress={() => router.push("/login")}>
             <Text style={styles.link}>Already have an account? Login</Text>
           </TouchableOpacity>
         </View>
