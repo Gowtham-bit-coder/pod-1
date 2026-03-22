@@ -1,26 +1,42 @@
 import React, { useState } from "react";
 import {
-  View, Text, FlatList, TextInput,
-  TouchableOpacity, StyleSheet
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet
 } from "react-native";
 import { useRouter } from "expo-router";
-import { red } from "react-native-reanimated/lib/typescript/Colors";
 
-const dummyQuestions = [
-  { id: "1", question: "What did you hear?" },
-  { id: "2", question: "Summarize the audio." },
+const passageAudioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
+const questions = [
+  {
+    id: "1",
+    question: "What is the speaker talking about in the first line?",
+    options: ["React Native", "VueJS", "Angular", "Svelte"]
+  },
+  {
+    id: "2",
+    question: "What kind of app architecture is mentioned?",
+    options: ["MVC", "Redux", "React-style components", "Monolithic"]
+  }
 ];
 
 export default function ListeningScreen() {
   const router = useRouter();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [selected, setSelected] = useState<Record<string, string>>({});
 
-  const [answers, setAnswers] = useState<any>({});
-
-  const handleAnswer = (id: string, text: string) => {
-    setAnswers({ ...answers, [id]: text });
+  const playAudio = () => {
+    setIsPlaying((prev) => !prev);
   };
 
-  const allAnswered = Object.keys(answers).length === dummyQuestions.length;
+  const setAnswer = (id: string, option: string) => {
+    setSelected((prev) => ({ ...prev, [id]: option }));
+  };
+
+  const allAnswered = Object.keys(selected).length === questions.length;
 
   const handleNext = () => {
     router.push("/write");
@@ -31,10 +47,19 @@ export default function ListeningScreen() {
 
       <Text style={styles.title}>Listening Test</Text>
 
+      <TouchableOpacity style={styles.audioBtn} onPress={playAudio}>
+        <Text style={styles.audioBtnText}>{isPlaying ? "Pause Audio" : "Play Audio"}</Text>
+      </TouchableOpacity>
+      <Text style={styles.audioInfo}>
+        {isPlaying
+          ? "Audio is playing... (mock playback - install expo-av for real audio)"
+          : "Tap Play to hear the audio passage."}
+      </Text>
+
       <FlatList
         style={styles.list}
         contentContainerStyle={styles.listContent}
-        data={dummyQuestions}
+        data={questions}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
           <View style={styles.card}>
@@ -42,11 +67,26 @@ export default function ListeningScreen() {
               {index + 1}. {item.question}
             </Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Type your answer..."
-              onChangeText={(text) => handleAnswer(item.id, text)}
-            />
+            {item.options.map((option) => (
+              <TouchableOpacity
+                key={option}
+                style={[
+                  styles.choiceButton,
+                  selected[item.id] === option && styles.choiceSelected,
+                ]}
+                onPress={() => setAnswer(item.id, option)}
+              >
+                <Text
+                  style={
+                    selected[item.id] === option
+                      ? styles.choiceTextSelected
+                      : styles.choiceText
+                  }
+                >
+                  {option}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         )}
       />
@@ -67,13 +107,31 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 15, backgroundColor: '#fff' },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 10 },
   card: { marginBottom: 15 },
-  question: { fontSize: 16 },
-  input: {
-    borderWidth: 1,
-    marginTop: 5,
-    padding: 10,
-    borderRadius: 5
+  question: { fontSize: 16, marginBottom: 8 },
+  audioBtn: {
+    backgroundColor: "#4F46E5",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    marginBottom: 16
   },
+  audioBtnText: { color: "#fff", fontWeight: "bold" },
+  choiceButton: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginBottom: 8
+  },
+  choiceSelected: {
+    borderColor: "#4F46E5",
+    backgroundColor: "#EEF2FF"
+  },
+  choiceText: { color: "#333" },
+  choiceTextSelected: { color: "#4F46E5", fontWeight: "bold" },
+  audioInfo: { marginBottom: 14, color: "#555" },
   list: { flexGrow: 1 },
   listContent: { paddingBottom: 16 },
   btn: {
