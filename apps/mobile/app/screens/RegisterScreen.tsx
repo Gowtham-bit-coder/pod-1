@@ -48,7 +48,7 @@ export default function RegisterScreen() {
 
   return (
     <ImageBackground
-      source={{ uri: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=500" }}
+      source={{ uri: "https://images.unsplash.com/photo-1508780709619-79562169bc64" }}
       style={styles.background}
     >
       <View style={styles.overlay}>
